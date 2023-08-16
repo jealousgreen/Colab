@@ -17,7 +17,7 @@ import warnings as ws
 ws.defaultaction = "ignore"
 
 # загрузка данных
-df = pd.read_csv('/content/drive/MyDrive/dataset_tk.csv', parse_dates = True)
+df = pd.read_csv('Colab/Test1/dataset_tk.csv', parse_dates = True)
 print(df.info())
 
 df.rename(columns={"Unnamed: 0":"Date"},inplace=True)

@@ -20,6 +20,7 @@ ws.defaultaction = "ignore"
 df = pd.read_csv('/Colab/Test1/dataset_tk.csv', parse_dates = True)
 print(df.info())
 
+#Переименую столбец с датами в подходящее наименование
 df.rename(columns={"Unnamed: 0":"Date"},inplace=True)
 df['Date']=pd.to_datetime(df["Date"],dayfirst=True)
 df.head()
@@ -50,6 +51,20 @@ plt.figure(figsize = (40,40))
 sns.barplot(x= "State", y = "Average Consumption", data = mean_temprature)
 plt.show()
 
+import plotly.graph_objects as go
+
+#Максимальное потребеление в Maharashtra
+fig= go.Figure(go.Indicator(
+    mode = "gauge+number",
+    value =  df.Maharashtra.max(),
+    title = {'text': "Max Power Counsumption : Maharashtra"},
+    gauge = {
+        'axis': {'range': [None, 600], 'tickwidth': 1}
+        }
+))
+
+fig.show()
+
 df['Maharashtra'].unique()
 
 len(df['Maharashtra'].unique())
@@ -61,7 +76,7 @@ plt.plot(df.Date,df.Maharashtra)
 
 plt.figure(figsize=(16,8))
 plt.title('Power consumption in Maharashtra')
-plt.hist(df.Gujarat)
+plt.hist(df.Maharashtra)
 
 power = df.drop( df.index[137:467] )
 power
@@ -70,12 +85,12 @@ month = power.groupby(power['Date'].dt.strftime('%B')).sum()
 
 month
 
-#Месячное потребление э/э
+#Месячное потребление э/э каждого штата
 plt.figure(figsize=(16,8))
 plt.title('Power consumption of states monthly')
 sns.heatmap(month)
 
-#Сравнение по двум штатам
+#Сравнение по двум штатам Maharashtra и Delhi
 plt.figure(figsize=(16,8))
 plt.plot(month.Delhi, marker = 'o');
 plt.plot(month.Maharashtra , marker = 's');
